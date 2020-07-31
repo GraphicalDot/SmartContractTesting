@@ -1,6 +1,6 @@
 
-pragma solidity 0.6.1;
-
+pragma solidity 0.7.0;
+// SPDX-License-Identifier: MIT
 
 
 contract TicTacToe {
@@ -10,7 +10,6 @@ contract TicTacToe {
     string constant NOT_YOUR_TURN = "003002";
     string constant INVALID_PLAYER = "003003";
 
-    string constant GAME_ALREADY_OVER = "003004";
     string constant CELL_NOT_EMPTY = "003005";
     string constant INVALID_CELL_NUMBER = "003006";
 
@@ -25,10 +24,10 @@ contract TicTacToe {
         uint _from,
         uint _place
     );
-    constructor() public {
+    constructor() public{
         player1 = msg.sender;
     }
-    function join() public {
+    function join() external {
         require (player2 == address(0), ONLY_TWO_PLAYERS_ALLOWED);
         player2 = msg.sender;
     }
@@ -62,20 +61,20 @@ contract TicTacToe {
         }
         return 0;
     }
-    function isGameOver() public view returns(bool){
+    function isGameOver() external view returns(bool){
         for (uint i = 0 ;i < 9; i++){
             if (board[i] == 0) return false;
         }
         return true;
     }
 
-    function doMove(uint _place) public validPlayers  validTurn validCell(_place)   returns (uint) {
+    function doMove(uint _place) external validPlayers  validTurn validCell(_place)   returns (uint) {
         board[_place] = whoseTurn;
         whoseTurn = 3 - whoseTurn;
         emit Turn(whoseTurn, _place);
         return 0;
     }
-    function currentState() public view returns (string memory, string memory){
+    function currentState() external view returns (string memory, string memory){
         string memory text = "No winner yet";
         uint winner = checkWinner();
         if (winner == 1) {
