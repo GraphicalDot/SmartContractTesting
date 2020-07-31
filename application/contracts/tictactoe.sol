@@ -36,7 +36,8 @@ contract TicTacToe {
       require(msg.sender == player1 || msg.sender == player2, INVALID_PLAYER);
       _;
     }
-    modifier isEmptyPlace(uint _place) {
+    modifier validCell(uint _place) {
+      require (_place <= 8, INVALID_CELL_NUMBER);
       require(board[_place] == 0, CELL_NOT_EMPTY);
       _;
     }
@@ -48,10 +49,7 @@ contract TicTacToe {
         }
         _;
     }
-    modifier isGameOver(){
-        require (checkWinner() != 1, GAME_ALREADY_OVER);
-        _;
-    }
+
     uint[][] tests = [[0,1, 2], [3, 4, 5],
              [6, 7, 8], [0, 3, 6], [1, 4, 7],
             [2, 5, 8], [0, 4, 8], [2, 4, 6]];
@@ -64,8 +62,14 @@ contract TicTacToe {
         }
         return 0;
     }
-    function doMove(uint _place) public validPlayers validTurn isEmptyPlace(_place)  isGameOver returns (uint) {
-        require (_place <= 8, INVALID_CELL_NUMBER);
+    function isGameOver() public view returns(bool){
+        for (uint i = 0 ;i < 9; i++){
+            if (board[i] == 0) return false;
+        }
+        return true;
+    }
+
+    function doMove(uint _place) public validPlayers  validTurn validCell(_place)   returns (uint) {
         board[_place] = whoseTurn;
         whoseTurn = 3 - whoseTurn;
         emit Turn(whoseTurn, _place);
@@ -88,7 +92,7 @@ contract TicTacToe {
         signs[1] = "X";
         signs[2] = "O";
         for (uint i = 0; i < 9; i++){
-          bytes(out)[i] = signs[board[i]];
+          bytes(out)[i + i/3] = signs[board[i]];
         }
         return (text, string(out));
     }
