@@ -1,0 +1,19 @@
+strict digraph {
+subgraph cluster_424_TicTacToe {
+label = "TicTacToe"
+"424_isGameOver" [label="isGameOver"]
+"424_constructor" [label="constructor"]
+"424_currentState" [label="currentState"]
+"424_doMove" [label="doMove"]
+"424_checkWinner" [label="checkWinner"]
+"424_join" [label="join"]
+"424_currentState" -> "424_checkWinner"
+"424_doMove" -> "424_validPlayers"
+"424_doMove" -> "424_validCell"
+"424_doMove" -> "424_validTurn"
+}subgraph cluster_solidity {
+label = "[Solidity]"
+"require(bool,string)" 
+"424_join" -> "require(bool,string)"
+}
+}
