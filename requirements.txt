@@ -66,7 +66,7 @@ py==1.9.0
 py-solc-ast==1.2.4
 py-solc-x==0.10.1
 pycryptodome==3.9.8
-Pygments==2.6.1
+Pygments==2.7.4
 pygments-lexer-solidity==0.5.1
 PyJWT==1.7.1
 pylint==2.5.3
